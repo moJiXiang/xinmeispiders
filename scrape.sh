@@ -10,5 +10,8 @@
 cd ~/Works/xinmeispiders
 PATH=$PATH:/usr/local/bin
 export PATH
-scrapy crawl baidu_crawler
-scrapy crawl google_crawler
+# scrapy crawl baidu_crawler
+# scrapy crawl google_crawler
+
+# scrapy crawlall
+scrapy list|xargs -n 1 scrapy crawl

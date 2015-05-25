@@ -27,7 +27,6 @@ ITEM_PIPELINES = {
     'xinmeispiders.pipelines.MongoDBPipeline': 300
 }
 
-
 DOWNLOADER_MIDDLEWARES = {
 	# "scrapy.contrib.downloadermiddleware.httpproxy.HttpProxyMiddleware": 110,
 	# "xinmeispiders.proxy_middleware.ProxyMiddleware": 100,
