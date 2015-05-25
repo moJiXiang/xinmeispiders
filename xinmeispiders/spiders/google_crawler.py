@@ -51,7 +51,7 @@ class GoogleCrawlerSpider(CrawlSpider):
 
     def parse_item(self, response):
         results = Selector(response).xpath('//div[@class="rc"]')
-        kw = Selector(response).xpath('//form[@class="cdr_frm"]/input[@name="q"]/@value').extract()[0]
+        kw = Selector(response).xpath('//input[@id="lst-ib"]/@value').extract()[0]
         for result in results:
             item = XinmeispidersItem()
             item['domain'] = self.allowed_domains[0]
