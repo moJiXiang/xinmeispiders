@@ -7,7 +7,7 @@
 # /usr/bin/python /Users/mojixiang/Works/xinmeispiders/run.py >> /Users/mojixiang/Works/xinmeispiders/crawlers.log
 # /usr/bin/python /Users/mojixiang/Works/xinmeispiders/testdb.py
 
-cd ~/Works/xinmeispiders
+cd /home/xinmei/xinmeispiders
 PATH=$PATH:/usr/local/bin
 export PATH
 scrapy crawl baidu_crawler
