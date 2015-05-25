@@ -47,22 +47,22 @@ class GoogleCrawlerSpider(CrawlSpider):
         return request
 
     def parse_start_url(self, response):
-        return self.parse_item(response)
+        hasResult = Selector(response).xpath('//div[@id="topstuff"]//div[@class="med"]')
+        print '================================%s' % len(hasResult)
+        if len(hasResult)>0:
+            pass
+        else:
+            return self.parse_item(response)
 
     def parse_item(self, response):
         results = Selector(response).xpath('//div[@class="rc"]')
-        hasResult = Selector(response).xpath('//div[@id="topstuff"]//div[@class="med"]')
-        print '================================%s' % len(hasResult)
-        if not len(hasResult):
-            kw = Selector(response).xpath('//input[@id="lst-ib"]/@value').extract()[0]
-            for result in results:
-                item = XinmeispidersItem()
-                item['domain'] = self.allowed_domains[0]
-                item['kw'] = kw
-                item['title'] = result.xpath('string(.//h3//a)').extract()[0]
-                item['url'] = result.xpath('./h3/a/@href').extract()[0]
-                item['brief'] = result.xpath('string(.//span[@class="st"])').extract()[0]
-                yield item
-        else:
-            pass
+        kw = Selector(response).xpath('//input[@id="lst-ib"]/@value').extract()[0]
+        for result in results:
+            item = XinmeispidersItem()
+            item['domain'] = self.allowed_domains[0]
+            item['kw'] = kw
+            item['title'] = result.xpath('string(.//h3//a)').extract()[0]
+            item['url'] = result.xpath('./h3/a/@href').extract()[0]
+            item['brief'] = result.xpath('string(.//span[@class="st"])').extract()[0]
+            yield item
         
