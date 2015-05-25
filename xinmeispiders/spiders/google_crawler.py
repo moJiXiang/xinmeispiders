@@ -52,11 +52,16 @@ class GoogleCrawlerSpider(CrawlSpider):
     def parse_item(self, response):
         results = Selector(response).xpath('//div[@class="rc"]')
         kw = Selector(response).xpath('//input[@id="lst-ib"]/@value').extract()[0]
-        for result in results:
-            item = XinmeispidersItem()
-            item['domain'] = self.allowed_domains[0]
-            item['kw'] = kw
-            item['title'] = result.xpath('string(.//h3//a)').extract()[0]
-            item['url'] = result.xpath('./h3/a/@href').extract()[0]
-            item['brief'] = result.xpath('string(.//span[@class="st"])').extract()[0]
-            yield item
+        hasResult = Selector(response).xpath('string(//div[@class="med"])').extract()[]
+        if not hasResult:
+            for result in results:
+                item = XinmeispidersItem()
+                item['domain'] = self.allowed_domains[0]
+                item['kw'] = kw
+                item['title'] = result.xpath('string(.//h3//a)').extract()[0]
+                item['url'] = result.xpath('./h3/a/@href').extract()[0]
+                item['brief'] = result.xpath('string(.//span[@class="st"])').extract()[0]
+                yield item
+        else:
+            pass
+        
