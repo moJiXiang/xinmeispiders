@@ -51,9 +51,9 @@ class GoogleCrawlerSpider(CrawlSpider):
 
     def parse_item(self, response):
         results = Selector(response).xpath('//div[@class="rc"]')
-        hasResult = Selector(response).xpath('string(//div[@class="med"])').extract()[0]
-        print '================================%s' % hasResult
-        if not hasResult:
+        hasResult = Selector(response).xpath('//div[@id="topstuff"]//div[@class="med"]')
+        print '================================%s' % len(hasResult)
+        if not len(hasResult):
             kw = Selector(response).xpath('//input[@id="lst-ib"]/@value').extract()[0]
             for result in results:
                 item = XinmeispidersItem()
