@@ -52,7 +52,7 @@ class GoogleCrawlerSpider(CrawlSpider):
     def parse_item(self, response):
         results = Selector(response).xpath('//div[@class="rc"]')
         kw = Selector(response).xpath('//input[@id="lst-ib"]/@value').extract()[0]
-        hasResult = Selector(response).xpath('string(//div[@class="med"])').extract()[]
+        hasResult = Selector(response).xpath('string(//div[@class="med"])').extract()[0]
         if not hasResult:
             for result in results:
                 item = XinmeispidersItem()
