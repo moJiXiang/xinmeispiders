@@ -33,12 +33,12 @@ class BaiduCrawlerSpider(CrawlSpider):
 
     def get_kws_fromdb(self):
         searchwords = db["searchwords"]
-        results = json.loads(dumps(searchwords.find({"isbdsearched": false})), object_hook=json_util.object_hook)
+        results = json.loads(dumps(searchwords.find({"isbdsearched": 0})), object_hook=json_util.object_hook)
         kws = []
         for re in results:
             kws.append(re['kw'])
 
-        searchwords.update({"isbdsearched": false}, {'$set': {'isbdsearched': true}}, multi=True)
+        searchwords.update({"isbdsearched": 0}, {'$set': {'isbdsearched': 1}}, multi=True)
         
         return kws
 

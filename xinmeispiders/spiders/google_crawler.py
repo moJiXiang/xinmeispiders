@@ -19,17 +19,17 @@ class GoogleCrawlerSpider(CrawlSpider):
     # start_urls = ['http://www.google.com/']
 
     rules = (
-        Rule(LinkExtractor(allow=(), restrict_xpath='//a[@id="pnnext"]'), callback='parse_item', follow=True),
+        Rule(LinkExtractor(allow=(), restrict_xpaths='//a[@id="pnnext"]'), callback='parse_item', follow=True),
     )
 
     def get_kws_fromdb(self):
         searchwords = db["searchwords"]
-        results = json.loads(dumps(searchwords.find({"isglsearched": false})), object_hook=json_util.object_hook)
+        results = json.loads(dumps(searchwords.find({"isglsearched": 0})), object_hook=json_util.object_hook)
         kws = []
         for re in results:
             kws.append(re['kw'])
 
-        searchwords.update({"isglsearched": false}, {'$set': {'isglsearched': true}}, multi=True)
+        searchwords.update({"isglsearched": 0}, {'$set': {'isglsearched': 1}}, multi=True)
         
         return kws
 
