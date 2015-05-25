@@ -40,7 +40,7 @@ class GoogleCrawlerSpider(CrawlSpider):
         '''
         kws = self.get_kws_fromdb()
         for kw in kws:
-            yield self.make_requests_from_url("http://www.google.com/search?q=%s" % kw.encode('utf8'))
+            yield self.make_requests_from_url("https://www.google.com/search?q=%s" % kw.encode('utf8'))
 
     def make_requests_from_url(self, url):
         request = Request(url)
