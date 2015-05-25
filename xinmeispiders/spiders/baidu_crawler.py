@@ -33,12 +33,12 @@ class BaiduCrawlerSpider(CrawlSpider):
 
     def get_kws_fromdb(self):
         searchwords = db["searchwords"]
-        results = json.loads(dumps(searchwords.find({"status": 0})), object_hook=json_util.object_hook)
+        results = json.loads(dumps(searchwords.find({"isbdsearched": false})), object_hook=json_util.object_hook)
         kws = []
         for re in results:
             kws.append(re['kw'])
 
-        searchwords.update({"status": 0}, {'$set': {'status': 1}}, multi=True)
+        searchwords.update({"isbdsearched": false}, {'$set': {'isbdsearched': true}}, multi=True)
         
         return kws
 
@@ -60,10 +60,12 @@ class BaiduCrawlerSpider(CrawlSpider):
 
     def parse_item(self, response):
         results = Selector(response).xpath('//div[contains(@class, "c-container") and not(contains(@class, "result-op"))]')
+        kw = Selector(response).xpath('//input[@id = "kw"]/@value').extract()[0]
         for result in results:
             item = XinmeispidersItem()
-            item['kw'] = result.xpath('//input[@id = "kw"]/@value').extract()[0]
+            item['domain'] = self.allowed_domains[0]
+            item['kw'] = kw
             item['title'] = result.xpath('string(.//h3//a)').extract()[0]
             item['url'] = result.xpath('.//h3/a/@href').extract()[0]
-            item['desc'] = result.xpath('string(.//div[@class="c-abstract"])').extract()[0]
+            item['brief'] = result.xpath('string(.//div[@class="c-abstract"])').extract()[0]
             yield item

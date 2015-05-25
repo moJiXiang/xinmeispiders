@@ -10,28 +10,6 @@ import pymongo
 from scrapy.exceptions import DropItem
 from scrapy import log
 
-class ChangeKWStatus(object):
-	def __init__(self, mongo_uri, mongo_db):
-		self.mongo_uri = mongo_uri
-		self.mongo_db = mongo_db
-
-	@classmethod
-	def from_crawler(cls, crawler):
-		return cls(
-			mongo_uri = crawler.settings.get('MONGO_URI_KWS'),
-			mongo_db = crawler.settings.get('MONGO_DATABASE_KWS', 'items')
-		)	
-
-	def open_spider(self, spider):
-		self.client = pymongo.MongoClient(self.mongo_uri)
-		self.db = self.client[self.mongo_db]
-
-	def close_spider(self, spider):
-		self.db["searchwords"].update({'status': 1}, {'$set':{'status': 2}})
-
-	def process_item(self, item, spider):
-		return item
-
 class MongoDBPipeline(object):
 
 	def __init__(self, mongo_uri, mongo_db):

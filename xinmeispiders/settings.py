@@ -23,7 +23,9 @@ MONGO_URI = 'mongodb://dbs:SeeFaItH4120#@119.254.108.220:7530/stock'
 MONGO_DATABASE = 'stock'
 MONGO_URI_KWS  = 'mongodb://xinmei:xinmei@117.121.25.124:27017/xinmei-development'
 MONGO_DATABASE_KWS = 'xinmei-development'
-ITEM_PIPELINES = {'xinmeispiders.pipelines.MongoDBPipeline': 300}
+ITEM_PIPELINES = {
+    'xinmeispiders.pipelines.MongoDBPipeline': 300
+}
 
 
 DOWNLOADER_MIDDLEWARES = {
