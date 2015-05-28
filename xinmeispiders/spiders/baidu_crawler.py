@@ -75,7 +75,10 @@ class BaiduCrawlerSpider(CrawlSpider):
             item['score'] = 0
 
             # 根据active的a标签的值来排名
-            page = current_page if int(current_page) > 10 else ('0%s' % (current_page,))
+            page = current_page if int(current_page) >= 10 else ('0%s' % (current_page,))
             rank = str(i) if i >= 10 else ('0%d' %(i,)) 
-            item['rank'] = int(page + rank)
+            print '(((((((((((((((((((((((((('
+            print rank
+            print page + rank
+            item['rank'] = page + rank
             yield item
