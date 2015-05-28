@@ -60,7 +60,7 @@ class GoogleCrawlerSpider(CrawlSpider):
         for i, result in enumerate(results):
             item = SpidersResultItem()
             item['domain'] = self.allowed_domains[0]
-            itm['kwid'] = ''
+            item['kwid'] = ''
             item['kw'] = kw
             item['title'] = result.xpath('string(.//h3//a)').extract()[0]
             item['url'] = result.xpath('./h3/a/@href').extract()[0]
