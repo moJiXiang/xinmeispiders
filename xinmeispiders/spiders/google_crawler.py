@@ -11,6 +11,7 @@ from xinmeispiders.db import db
 import json
 from bson import json_util
 from bson.json_util import dumps
+from urlparse import urlparse
 
 
 class GoogleCrawlerSpider(CrawlSpider):
