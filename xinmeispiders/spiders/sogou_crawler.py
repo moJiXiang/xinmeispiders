@@ -11,6 +11,7 @@ from xinmeispiders.db import db
 import json
 from bson import json_util
 from bson.json_util import dumps
+import time
 
 
 class SogouCrawlerSpider(CrawlSpider):
@@ -35,7 +36,9 @@ class SogouCrawlerSpider(CrawlSpider):
         
     def start_requests(self):
         kws = self.get_kws_fromdb()
-        for kw in kws:
+        for i, kw in enumerate(kws):
+            second = i * 2
+            time.sleep(second)
             yield self.make_requests_from_url("http://weixin.sogou.com/weixin?type=2&fr=sgsearch&query=%s" % kw.encode('gbk'))
 
     def make_requests_from_url(self, url):

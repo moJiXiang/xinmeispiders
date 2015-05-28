@@ -12,6 +12,7 @@ import json
 from bson import json_util
 from bson.json_util import dumps
 from urlparse import urlparse
+import time
 
 class BaiduCrawlerSpider(CrawlSpider):
     # start_urls = [
@@ -47,7 +48,9 @@ class BaiduCrawlerSpider(CrawlSpider):
             to init start urls
         '''
         kws = self.get_kws_fromdb()
-        for kw in kws:
+        for i, kw in enumerate(kws):
+            second = i * 2
+            time.sleep(second)
             yield self.make_requests_from_url("http://www.baidu.com/s?wd=%s" % kw.encode('gbk'), kw)
 
     def make_requests_from_url(self, url, kw):
