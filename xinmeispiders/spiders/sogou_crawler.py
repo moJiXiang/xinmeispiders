@@ -63,7 +63,7 @@ class SogouCrawlerSpider(CrawlSpider):
             if current_page:
                 page = current_page if int(current_page) >= 10 else ('0%s' % (current_page,))
             else:
-                page = '1'
+                page = '01'
             rank = str(i) if i >= 10 else ('0%d' %(i,)) 
             item['rank'] = page + rank
             yield item
