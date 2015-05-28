@@ -37,7 +37,7 @@ class BaiduCrawlerSpider(CrawlSpider):
         for re in results:
             kws.append(re['kw'])
 
-        # searchwords.update({"isbdsearched": 0}, {'$set': {'isbdsearched': 1}}, multi=True)
+        searchwords.update({"isbdsearched": 0}, {'$set': {'isbdsearched': 1}}, multi=True)
         
         return kws
 

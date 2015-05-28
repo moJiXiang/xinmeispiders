@@ -83,11 +83,11 @@ class MongoDBPipeline(object):
 		self.db[collection_name].update({'url': item['url']}, dict(item), upsert=True)
 		# word db
 		if item['domain'] == 'baidu.com':
-			db['searchwords'].update({'kw': item['kw']}, {'$set': {'isbdsearched': 1}})
+			db['searchwords'].update({'kw': item['kw']}, {'$set': {'isbdsearched': 2}})
 		elif item['domain'] == 'google.com':
-			db['searchwords'].update({'kw': item['kw']}, {'$set': {'isglsearched': 1}})
+			db['searchwords'].update({'kw': item['kw']}, {'$set': {'isglsearched': 2}})
 		elif item['domain'] == 'sogou.com':
-			db['searchwords'].update({'kw': item['kw']}, {'$set': {'issgsearched': 1}})
+			db['searchwords'].update({'kw': item['kw']}, {'$set': {'issgsearched': 2}})
 		
 		
 		log.msg("Added to MongoDB database!", level=log.DEBUG, spider=spider)

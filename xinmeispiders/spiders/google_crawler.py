@@ -30,7 +30,7 @@ class GoogleCrawlerSpider(CrawlSpider):
         for re in results:
             kws.append(re['kw'])
 
-        # searchwords.update({"isglsearched": 0}, {'$set': {'isglsearched': 1}}, multi=True)
+        searchwords.update({"isglsearched": 0}, {'$set': {'isglsearched': 1}}, multi=True)
         
         return kws
 
@@ -50,7 +50,7 @@ class GoogleCrawlerSpider(CrawlSpider):
     def parse_start_url(self, response):
         hasResult = Selector(response).xpath('//div[@id="topstuff"]//div[@class="med"]')
         if len(hasResult)>0:
-            pass
+            searchwords.update({"isglsearched": 0}, {'$set': {'isglsearched': 1}}, multi=True)
         else:
             return self.parse_item(response)
 

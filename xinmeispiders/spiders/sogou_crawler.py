@@ -29,7 +29,7 @@ class SogouCrawlerSpider(CrawlSpider):
         for re in results:
             kws.append(re['kw'])
 
-        # searchwords.update({"issgsearched": 0},{'$set':{'issgsearched': 1}},multi=True)
+        searchwords.update({"issgsearched": 0},{'$set':{'issgsearched': 1}},multi=True)
 
         return kws
         
