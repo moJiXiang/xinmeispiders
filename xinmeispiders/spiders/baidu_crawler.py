@@ -37,7 +37,7 @@ class BaiduCrawlerSpider(CrawlSpider):
         for re in results:
             kws.append(re['kw'])
 
-        searchwords.update({"isbdsearched": 0}, {'$set': {'isbdsearched': 1}}, multi=True)
+        # searchwords.update({"isbdsearched": 0}, {'$set': {'isbdsearched': 1}}, multi=True)
         
         return kws
 
@@ -77,5 +77,5 @@ class BaiduCrawlerSpider(CrawlSpider):
             # 根据active的a标签的值来排名
             page = current_page if int(current_page) > 10 else ('0%s' % (current_page,))
             rank = str(i) if i >= 10 else ('0%d' %(i,)) 
-            item['rank'] = page + rank 
+            item['rank'] = int(page + rank)
             yield item

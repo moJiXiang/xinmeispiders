@@ -81,6 +81,15 @@ class MongoDBPipeline(object):
 		# 		raise DropItem("Missing data!")
 		collection_name = item.__class__.__name__
 		self.db[collection_name].update({'url': item['url']}, dict(item), upsert=True)
+		# word db
+		if item['domain'] == 'baidu.com':
+			db['searchwords'].update({'kw': item['kw']}, {'$set': {'isbdsearched': 1}})
+		elif item['domain'] == 'google.com':
+			db['searchwords'].update({'kw': item['kw']}, {'$set': {'isglsearched': 1}})
+		elif item['domain'] == 'sogou.com':
+			db['searchwords'].update({'kw': item['kw']}, {'$set': {'issgsearched': 1}})
+		
+		
 		log.msg("Added to MongoDB database!", level=log.DEBUG, spider=spider)
 
 		return item
