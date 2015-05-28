@@ -17,11 +17,11 @@ CONCURRENT_REQUESTS = 100
 CONCURRENT_REQUESTS_PER_IP=40
 # Crawl responsibly by identifying yourself (and your website) on the user-agent
 #USER_AGENT = 'xinmeispiders (+http://www.yourdomain.com)'
-MONGO_URI = 'mongodb://localhost:27017/xinmei-development'
-MONGO_DATABASE = 'xinmei-development'
+# MONGO_URI = 'mongodb://localhost:27017/xinmei-development'
+# MONGO_DATABASE = 'xinmei-development'
 
-# MONGO_URI = 'mongodb://dbs:SeeFaItH4120#@119.254.108.220:7530/stock'
-# MONGO_DATABASE = 'stock'
+MONGO_URI = 'mongodb://dbs:SeeFaItH4120#@119.254.108.220:7530/stock'
+MONGO_DATABASE = 'stock'
 ITEM_PIPELINES = {
     'xinmeispiders.pipelines.ScorePipeline': 100,
     'xinmeispiders.pipelines.MongoDBPipeline': 300
