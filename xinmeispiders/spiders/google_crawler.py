@@ -6,7 +6,7 @@ from scrapy.selector import Selector
 from scrapy import log
 from scrapy.http import Request
 from datetime import datetime
-from xinmeispiders.items import XinmeispidersItem
+from xinmeispiders.items import SpidersResultItem
 from xinmeispiders.db import db
 import json
 from bson import json_util
@@ -48,7 +48,6 @@ class GoogleCrawlerSpider(CrawlSpider):
 
     def parse_start_url(self, response):
         hasResult = Selector(response).xpath('//div[@id="topstuff"]//div[@class="med"]')
-        print '================================%s' % len(hasResult)
         if len(hasResult)>0:
             pass
         else:
@@ -57,12 +56,22 @@ class GoogleCrawlerSpider(CrawlSpider):
     def parse_item(self, response):
         results = Selector(response).xpath('//div[@class="rc"]')
         kw = Selector(response).xpath('//input[@id="lst-ib"]/@value').extract()[0]
-        for result in results:
-            item = XinmeispidersItem()
+        current_page = Selector(response).xpath('string(//td[@class="cur"])').extract()[0]
+        for i, result in enumerate(results):
+            item = SpidersResultItem()
             item['domain'] = self.allowed_domains[0]
+            itm['kwid'] = ''
             item['kw'] = kw
             item['title'] = result.xpath('string(.//h3//a)').extract()[0]
             item['url'] = result.xpath('./h3/a/@href').extract()[0]
             item['brief'] = result.xpath('string(.//span[@class="st"])').extract()[0]
+            parsed_uri = urlparse(item['url'])
+            item['sourceurl'] = '{uri.scheme}://{uri.netloc}/'.format(uri=parsed_uri)
+            item['score'] = 0
+
+            # 根据active的a标签的值来排名
+            page = current_page if int(current_page) > 10 else ('0%s' % (current_page,))
+            rank = str(i) if i >= 10 else ('0%d' %(i,)) 
+            item['rank'] = page + rank
             yield item
         

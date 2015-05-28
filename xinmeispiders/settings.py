@@ -12,18 +12,18 @@ BOT_NAME = 'xinmeispiders'
 
 SPIDER_MODULES = ['xinmeispiders.spiders']
 NEWSPIDER_MODULE = 'xinmeispiders.spiders'
-DOWNLOAD_DELAY = 2
+DOWNLOAD_DELAY = 5
 CONCURRENT_REQUESTS = 100
 CONCURRENT_REQUESTS_PER_IP=40
 # Crawl responsibly by identifying yourself (and your website) on the user-agent
 #USER_AGENT = 'xinmeispiders (+http://www.yourdomain.com)'
-MONGODB_SERVER = 'localhost'
-MONGODB_PORT = 27017
-MONGO_URI = 'mongodb://dbs:SeeFaItH4120#@119.254.108.220:7530/stock'
-MONGO_DATABASE = 'stock'
-MONGO_URI_KWS  = 'mongodb://xinmei:xinmei@117.121.25.124:27017/xinmei-development'
-MONGO_DATABASE_KWS = 'xinmei-development'
+MONGO_URI = 'mongodb://localhost:27017/xinmei-development'
+MONGO_DATABASE = 'xinmei-development'
+
+# MONGO_URI = 'mongodb://dbs:SeeFaItH4120#@119.254.108.220:7530/stock'
+# MONGO_DATABASE = 'stock'
 ITEM_PIPELINES = {
+    'xinmeispiders.pipelines.ScorePipeline': 100,
     'xinmeispiders.pipelines.MongoDBPipeline': 300
 }
 
