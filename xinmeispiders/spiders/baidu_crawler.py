@@ -38,7 +38,7 @@ class BaiduCrawlerSpider(CrawlSpider):
         for re in results:
             kws.append(re['kw'])
 
-        searchwords.update({"isbdsearched": 0}, {'$set': {'isbdsearched': 1}}, multi=True)
+        # searchwords.update({"isbdsearched": 0}, {'$set': {'isbdsearched': 1}}, multi=True)
         
         return kws
 
@@ -58,6 +58,7 @@ class BaiduCrawlerSpider(CrawlSpider):
         return request
 
     def parse_start_url(self, response):
+        searchwords.update({"isbdsearched": 0}, {'$set': {'isbdsearched': 1}}, multi=True)
         return self.parse_item(response)
 
     def parse_item(self, response):

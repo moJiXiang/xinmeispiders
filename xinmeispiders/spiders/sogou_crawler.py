@@ -30,7 +30,7 @@ class SogouCrawlerSpider(CrawlSpider):
         for re in results:
             kws.append(re['kw'])
 
-        searchwords.update({"issgsearched": 0},{'$set':{'issgsearched': 1}},multi=True)
+        # searchwords.update({"issgsearched": 0},{'$set':{'issgsearched': 1}},multi=True)
 
         return kws
         
@@ -46,6 +46,14 @@ class SogouCrawlerSpider(CrawlSpider):
         return request
 
     def parse_start_url(self, response):
+        hasResult = Selector(response).xpath('//div[@id="smart_hint_container"]')
+        if len(hasResult) > 0:
+            searchwords.update({"issgsearched": 0},{'$set':{'issgsearched': 1}},multi=True)
+        else:
+            pass
+        
+
+
         return self.parse_item(response)
 
     def parse_item(self, response):

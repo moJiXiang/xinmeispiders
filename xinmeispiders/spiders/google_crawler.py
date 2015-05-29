@@ -31,7 +31,7 @@ class GoogleCrawlerSpider(CrawlSpider):
         for re in results:
             kws.append(re['kw'])
 
-        searchwords.update({"isglsearched": 0}, {'$set': {'isglsearched': 1}}, multi=True)
+        # searchwords.update({"isglsearched": 0}, {'$set': {'isglsearched': 1}}, multi=True)
         
         return kws
 
