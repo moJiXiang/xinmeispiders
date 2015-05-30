@@ -32,8 +32,8 @@ class BaiduCrawlerSpider(CrawlSpider):
     #     log.msg('Baidu crawler begin run at [%s]' % datetime.today(), level=log.INFO)
 
     def get_kws_fromdb(self):
-        searchwords = db["searchwords"]
-        results = json.loads(dumps(searchwords.find({"isbdsearched": 0})), object_hook=json_util.object_hook)
+        self.searchwords = db["searchwords"]
+        results = json.loads(dumps(self.searchwords.find({"isbdsearched": 0})), object_hook=json_util.object_hook)
         kws = []
         for re in results:
             kws.append(re['kw'])
@@ -58,7 +58,7 @@ class BaiduCrawlerSpider(CrawlSpider):
         return request
 
     def parse_start_url(self, response):
-        searchwords.update({"isbdsearched": 0}, {'$set': {'isbdsearched': 1}}, multi=True)
+        self.searchwords.update({"isbdsearched": 0}, {'$set': {'isbdsearched': 1}}, multi=True)
         return self.parse_item(response)
 
     def parse_item(self, response):

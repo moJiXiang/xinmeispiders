@@ -24,8 +24,8 @@ class SogouCrawlerSpider(CrawlSpider):
     )
 
     def get_kws_fromdb(self):
-        searchwords = db["searchwords"]
-        results = json.loads(dumps(searchwords.find({"issgsearched": 0})), object_hook=json_util.object_hook)
+        self.searchwords = db["searchwords"]
+        results = json.loads(dumps(self.searchwords.find({"issgsearched": 0})), object_hook=json_util.object_hook)
         kws = []
         for re in results:
             kws.append(re['kw'])
@@ -48,7 +48,7 @@ class SogouCrawlerSpider(CrawlSpider):
     def parse_start_url(self, response):
         hasResult = Selector(response).xpath('//div[@id="smart_hint_container"]')
         if len(hasResult) > 0:
-            searchwords.update({"issgsearched": 0},{'$set':{'issgsearched': 1}},multi=True)
+            self.searchwords.update({"issgsearched": 0},{'$set':{'issgsearched': 1}},multi=True)
         else:
             pass
         

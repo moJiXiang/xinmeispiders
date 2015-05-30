@@ -25,8 +25,8 @@ class GoogleCrawlerSpider(CrawlSpider):
     )
 
     def get_kws_fromdb(self):
-        searchwords = db["searchwords"]
-        results = json.loads(dumps(searchwords.find({"isglsearched": 0})), object_hook=json_util.object_hook)
+        self.searchwords = db["searchwords"]
+        results = json.loads(dumps(self.searchwords.find({"isglsearched": 0})), object_hook=json_util.object_hook)
         kws = []
         for re in results:
             kws.append(re['kw'])
@@ -53,7 +53,7 @@ class GoogleCrawlerSpider(CrawlSpider):
     def parse_start_url(self, response):
         hasResult = Selector(response).xpath('//div[@id="topstuff"]//div[@class="med"]')
         if len(hasResult)>0:
-            searchwords.update({"isglsearched": 0}, {'$set': {'isglsearched': 1}}, multi=True)
+            self.searchwords.update({"isglsearched": 0}, {'$set': {'isglsearched': 1}}, multi=True)
         else:
             return self.parse_item(response)
 
