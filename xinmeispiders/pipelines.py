@@ -29,7 +29,7 @@ class ScorePipeline(object):
 		kw = item['kw']
 		searchword = json.loads(dumps(db['searchwords'].find_one({"kw": kw})), object_hook=json_util.object_hook)
 		item['kwid'] = searchword['_id']
-        # 通过main, keyword来打分
+		# 通过main, keyword来打分
 		main = re.compile(searchword['main'])
 		keyword = re.compile(searchword['keyword'])
 		word = re.compile(searchword['word'])
