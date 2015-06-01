@@ -77,6 +77,7 @@ class SogouCrawlerSpider(CrawlSpider):
                 page = '01'
             rank = str(i) if i >= 10 else ('0%d' %(i,)) 
             item['rank'] = page + rank
+            item['content'] = ''
             yield item
 
 

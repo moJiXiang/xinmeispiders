@@ -24,6 +24,7 @@ MONGO_URI = 'mongodb://dbs:SeeFaItH4120#@119.254.108.220:7530/stock'
 MONGO_DATABASE = 'stock'
 ITEM_PIPELINES = {
     'xinmeispiders.pipelines.ScorePipeline': 100,
+    'xinmeispiders.pipelines.GooseArticleContentPipeline': 200,
     'xinmeispiders.pipelines.MongoDBPipeline': 300
 }
 

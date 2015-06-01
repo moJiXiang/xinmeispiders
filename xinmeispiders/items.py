@@ -20,6 +20,7 @@ class SpidersResultItem(scrapy.Item):
     sourceurl = scrapy.Field() # 来源链接
     score = scrapy.Field() # 打分
     rank = scrapy.Field() # 排名
+    content = scrapy.Field() # 正文内容
 
 
 

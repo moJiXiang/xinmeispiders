@@ -15,6 +15,9 @@ import json
 from bson import json_util
 from bson.json_util import dumps
 
+from goose import Goose
+from goose.text import StopWordsChinese
+
 
 # 给item添加字段
 class ScorePipeline(object):
@@ -51,6 +54,14 @@ class ScorePipeline(object):
         # 	score = 0
         
 		item['score'] = score
+		return item
+
+class GooseArticleContentPipeline(object):
+	def process_item(self, item, spider):
+		g = Goose({'stopwords_class': StopWordsChinese})
+		article = g.extract(url=item['url'])
+		item['content'] = article.cleaned_text[:]
+
 		return item
 
 class MongoDBPipeline(object):
