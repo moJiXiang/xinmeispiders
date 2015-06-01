@@ -42,26 +42,18 @@ class ScorePipeline(object):
 		wb = 1 if word.search(brief) else 0
 
 		score = mt + kt + wt + mb + kb + wb
-        # mb = main.search(brief) ? 2: 0
-
-        # if main.search(title) && main.search(brief):
-        # 	score = 4
-        # elif main.search(title) && not main.search(brief):
-        # 	score = 3
-        # elif not main.search(title) && main.search(brief):
-        # 	score = 2
-        # elif not main.search(title) && not main.search(brief):
-        # 	score = 0
-        
 		item['score'] = score
 		return item
 
 class GooseArticleContentPipeline(object):
 	def process_item(self, item, spider):
-		g = Goose({'stopwords_class': StopWordsChinese})
-		article = g.extract(url=item['url'])
-		item['content'] = article.cleaned_text[:]
-
+		if item['score'] > 6:
+			g = Goose({'stopwords_class': StopWordsChinese})
+			article = g.extract(url=item['url'])
+			item['content'] = article.cleaned_text[:]
+		else:
+			pass
+		
 		return item
 
 class MongoDBPipeline(object):
