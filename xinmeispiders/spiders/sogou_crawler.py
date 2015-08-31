@@ -1,9 +1,9 @@
 # -*- coding: utf-8 -*-
 import scrapy
-from scrapy.contrib.spiders import CrawlSpider, Rule
-from scrapy.contrib.linkextractors import LinkExtractor
+from scrapy.spiders import CrawlSpider, Rule
+from scrapy.linkextractors import LinkExtractor
 from scrapy.selector import Selector
-from scrapy import log
+# from scrapy import log
 from scrapy.http import Request
 from datetime import datetime
 from xinmeispiders.items import SpidersResultItem
@@ -33,7 +33,7 @@ class SogouCrawlerSpider(CrawlSpider):
         # searchwords.update({"issgsearched": 0},{'$set':{'issgsearched': 1}},multi=True)
 
         return kws
-        
+
     def start_requests(self):
         kws = self.get_kws_fromdb()
         for i, kw in enumerate(kws):
@@ -51,7 +51,7 @@ class SogouCrawlerSpider(CrawlSpider):
             self.searchwords.update({"issgsearched": 0},{'$set':{'issgsearched': 1}},multi=True)
         else:
             pass
-        
+
 
 
         return self.parse_item(response)
@@ -75,11 +75,7 @@ class SogouCrawlerSpider(CrawlSpider):
                 page = current_page if int(current_page) >= 10 else ('0%s' % (current_page,))
             else:
                 page = '01'
-            rank = str(i) if i >= 10 else ('0%d' %(i,)) 
+            rank = str(i) if i >= 10 else ('0%d' %(i,))
             item['rank'] = page + rank
             item['content'] = ''
             yield item
-
-
-
-

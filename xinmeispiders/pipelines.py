@@ -9,7 +9,8 @@ import pymongo
 import re
 
 from scrapy.exceptions import DropItem
-from scrapy import log
+# from scrapy import log
+import logging
 from db import db
 import json
 from bson import json_util
@@ -47,13 +48,13 @@ class ScorePipeline(object):
 
 class GooseArticleContentPipeline(object):
 	def process_item(self, item, spider):
-		if item['score'] > 6:
+		if item['score'] >= 6:
 			g = Goose({'stopwords_class': StopWordsChinese})
 			article = g.extract(url=item['url'])
 			item['content'] = article.cleaned_text[:]
 		else:
 			pass
-		
+
 		return item
 
 class MongoDBPipeline(object):
@@ -74,7 +75,7 @@ class MongoDBPipeline(object):
 		self.db = self.client[self.mongo_db]
 
 	def close_spider(self, spider):
-		log.msg("Change search words status!", level=log.DEBUG, spider=spider)
+		# log.msg("Change search words status!", level=log.DEBUG, spider=spider)
 
 		self.client.close()
 
@@ -91,8 +92,39 @@ class MongoDBPipeline(object):
 			db['searchwords'].update({'kw': item['kw']}, {'$set': {'isglsearched': 2}})
 		elif item['domain'] == 'sogou.com':
 			db['searchwords'].update({'kw': item['kw']}, {'$set': {'issgsearched': 2}})
-		
-		
-		log.msg("Added to MongoDB database!", level=log.DEBUG, spider=spider)
 
+
+		# log.msg("Added to MongoDB database!", level=log.DEBUG, spider=spider)
+		logging.warning('Added to MongoDB database!')
+
+		return item
+
+class GetEnterName(object):
+	def process_item(self, item, spider):
+		partten = re.compile(u'.+公司')
+		name = partten.search(item['name']).group()
+		item["name"] = name
+		return item
+
+class MongoDBStore(object):
+	def __init__(self, mongo_uri, mongo_db):
+		self.mongo_uri = mongo_uri
+		self.mongo_db = mongo_db
+
+	@classmethod
+	def from_crawler(cls, crawler):
+		return cls(
+			mongo_uri = crawler.settings.get('MONGO_URI'),
+			mongo_db = crawler.settings.get('MONGO_DATABASE', 'items')
+		)
+
+	def open_spider(self, spider):
+		self.client = pymongo.MongoClient(self.mongo_uri)
+		self.db = self.client[self.mongo_db]
+
+	def process_item(self, item, spider):
+		collection_name = item.__class__.__name__
+		self.db[collection_name].update({'name': item['name']}, dict(item), upsert=True)
+		# log.msg("Added to MongoDB database!", level=log.DEBUG, spider=spider)
+		logging.warning('Added to MongoDB database!')
 		return item

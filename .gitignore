@@ -1,1 +1,4 @@
 *.pyc
+db.py
+settings.py
+scrapy.sh

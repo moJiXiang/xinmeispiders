@@ -17,13 +17,7 @@ class SpidersResultItem(scrapy.Item):
     title = scrapy.Field() # 标题
     url = scrapy.Field() # 链接
     brief = scrapy.Field() # 简介
-    sourceurl = scrapy.Field() # 来源链接
+    sourceurl = scrapy.Field() # 文章来源
     score = scrapy.Field() # 打分
     rank = scrapy.Field() # 排名
     content = scrapy.Field() # 正文内容
-
-
-
-class StackItem(scrapy.Item):
-	title = scrapy.Field()
-	url = scrapy.Field()

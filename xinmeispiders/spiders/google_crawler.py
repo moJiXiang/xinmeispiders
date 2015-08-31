@@ -1,9 +1,9 @@
 # -*- coding: utf-8 -*-
 import scrapy
-from scrapy.contrib.spiders import CrawlSpider, Rule
-from scrapy.contrib.linkextractors import LinkExtractor
+from scrapy.spiders import CrawlSpider, Rule
+from scrapy.linkextractors import LinkExtractor
 from scrapy.selector import Selector
-from scrapy import log
+# from scrapy import log
 from scrapy.http import Request
 from datetime import datetime
 from xinmeispiders.items import SpidersResultItem
@@ -32,7 +32,7 @@ class GoogleCrawlerSpider(CrawlSpider):
             kws.append(re['kw'])
 
         # searchwords.update({"isglsearched": 0}, {'$set': {'isglsearched': 1}}, multi=True)
-        
+
         return kws
 
     def start_requests(self):
@@ -78,8 +78,7 @@ class GoogleCrawlerSpider(CrawlSpider):
                 page = current_page if int(current_page) >= 10 else ('0%s' % (current_page,))
             else:
                 page = '01'
-            rank = str(i) if i >= 10 else ('0%d' %(i,)) 
+            rank = str(i) if i >= 10 else ('0%d' %(i,))
             item['rank'] = page + rank
             item['content'] = ''
             yield item
-        
